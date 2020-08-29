@@ -1,0 +1,17 @@
+{% load crispy_forms_field %}
+
+<div{% if div.css_id %} id="{{ div.css_id }}"{% endif %} class="form-group{% if form_show_errors and field.errors %} has-error{% endif %}{% if field.css_classes %} {{ field.css_classes }}{% endif %}{% if div.css_class %} {{ div.css_class }}{% endif %}">
+    {% if field.label and form_show_labels %}
+        <label for="{{ field.id_for_label }}" class="control-label {{ label_class }}{% if field.field.required %} requiredField{% endif %}">
+            {{ field.label|safe }}{% if field.field.required %}<span class="asteriskField">*</span>{% endif %}
+        </label>
+    {% endif %}
+
+  <div class="controls input-group input-append date form-datetime col-md-5" data-link-field="{{ field.id_for_label }}" {{ flat_attrs|safe }}>
+    <input class="form-control" size="16" type="text" value="" readonly>
+    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+    <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+  </div>
+  <input type="hidden" id="{{ field.id_for_label }}" value="" /><br/>
+  {% include 'bootstrap3/layout/help_text_and_errors.html' %}
+</div>

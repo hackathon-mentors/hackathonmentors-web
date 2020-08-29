@@ -1,11 +1,13 @@
 from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, UpdateView
 from django.views.generic import ListView, DetailView
 
 from hackathonmentors.views import HackathonMentorsMixin
 from hackathon.models import Hackathon
 
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Layout, Field, Fieldset
 from slugify import slugify
 
 
@@ -19,6 +21,29 @@ class HackathonListView(HackathonMentorsMixin, ListView):
         context = super().get_context_data(**kwargs)
         return context
 
+class HackathonEditView(HackathonMentorsMixin, UpdateView):
+    model = Hackathon
+    fields = [
+        "name",
+        "location",
+        "is_remote",
+        "starts",
+        "ends",
+        "link",
+        "img"
+    ]
+    template_name = "hackathon/edit.html"
+    context_object_name = 'hackathon'
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.save()
+
+    def get_success_url(self):
+        return reverse_lazy('hackathon_view', args=[self.object.slug])
+
+    def validate(self, form):
+        pass
 
 class HackathonDetailsView(HackathonMentorsMixin, DetailView):
     model = Hackathon
@@ -36,6 +61,19 @@ class HackathonCreateView(HackathonMentorsMixin, CreateView):
         "ends",
     ]
     template_name = "hackathon/add.html"
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.layout = Layout(
+            Fieldset(
+                'name',
+                'location',
+                'is_remote'
+            ),
+            Field('starts', template="structure/datetimefield.html", data_date_format="dd-MM-yyyy HH:ii:ss"),
+            Field('ends', template="structure/datetimefield.html", data_date_format="dd-MM-yyyy HH:ii:ss"),
+        )
+    
 
     def validate(self, form):
         pass

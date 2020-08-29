@@ -1,0 +1,32 @@
+{% extends 'structure/base.html' %}
+
+{% load i18n %}
+{% load crispy_forms_tags %}
+
+{% block body %}
+
+<header class="jumbotron text-center">
+    <div class="container">
+      <h1>Editting {{hackathon.slug}}</h1>
+    </div>
+  </header>
+
+<section class="py-3 py-lg-5 mb-5">
+  <div class="container">
+    <div class="row">
+      <form class="col-md-6 mx-auto" method="POST" action="{% url 'hackathon_edit' %}">
+        {% csrf_token %}
+        {{ form|crispy }}
+        {% if redirect_field_value %}
+        <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+        {% endif %}
+        <button class="btn btn-primary" type="submit">{% trans "Submit" %}</button>
+      </form>
+    </div>
+  </div>
+
+</section>
+
+
+
+{% endblock %}
