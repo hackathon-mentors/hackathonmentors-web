@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.contrib.staticfiles.storage import staticfiles_storage
 from django.urls import include, path
 from django.views.generic.base import RedirectView
+from django.views import generic
 
 from hackathonmentors import views
 
@@ -14,4 +15,19 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('favicon.ico', RedirectView.as_view(
         url=staticfiles_storage.url('img/favicon.ico'))),
+    path(
+        'test-autocomplete/$',
+        autocomplete.Select2QuerySetView.as_view(
+            model=TModel,
+            create_field='name',
+        ),
+        name='select2_one_to_one_autocomplete',
+    ),
+    path(
+        'test/(?P<pk>\d+)/$',
+        generic.UpdateView.as_view(
+            model=TModel,
+            form_class=TForm,
+        )
+    ),
 ]
