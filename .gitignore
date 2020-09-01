@@ -178,3 +178,6 @@ data/mysql
 
 # asdf local python version
 .tool-versions
+
+# Jetbrain Config MacOSX
+.idea
