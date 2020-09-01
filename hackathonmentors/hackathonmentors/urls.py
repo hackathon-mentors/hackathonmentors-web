@@ -15,19 +15,4 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('favicon.ico', RedirectView.as_view(
         url=staticfiles_storage.url('img/favicon.ico'))),
-    path(
-        'test-autocomplete/$',
-        autocomplete.Select2QuerySetView.as_view(
-            model=TModel,
-            create_field='name',
-        ),
-        name='select2_one_to_one_autocomplete',
-    ),
-    path(
-        'test/(?P<pk>\d+)/$',
-        generic.UpdateView.as_view(
-            model=TModel,
-            form_class=TForm,
-        )
-    ),
 ]
