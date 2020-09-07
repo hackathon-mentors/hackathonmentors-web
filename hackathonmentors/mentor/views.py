@@ -55,6 +55,18 @@ class MentorRegistrationView(HackathonMentorsMixin, CreateView):
     template_name = "mentor/register.html"
     success_url = reverse_lazy('index')
 
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            if existing := Mentor.objects.filter(user=request.user).first():
+                if not existing.is_active:
+                    messages.info(self.request, 'You already have a pending mentor application. Please wait until you have been approved!')
+                    return redirect(reverse_lazy('user_dashboard'))
+                else:
+                    messages.info(self.request, 'You already have a mentor profile!')
+                    return redirect(reverse_lazy('user_dashboard'))
+
+        return super().dispatch(request, *args, **kwargs)
+
     def form_valid(self, form):
         self.object = form.save(commit=False)
         self.object.user = self.request.user
