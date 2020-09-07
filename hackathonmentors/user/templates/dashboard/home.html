@@ -1,24 +1,14 @@
-{% extends "structure/base.html" %}
+{% extends "dashboard/structure/base.html" %}
 
-{% block body %}
+{% block dashboard_body %}
 
-<section class="bg-light vh-100">
-  <div class="container">
-    
-
-      
-      <div class="">
-        <h1 class="h1">
-          <b>@{{ user.username }}</b> {% if user.is_staff %}<span class="badge badge-pill badge-primary">Mentor</span>{% endif %}
-        </h1>
-        <p>First Name: {{ user.first_name }}</p>
-        <p>Last Name: {{ user.last_name }}</p>
-        <p>Joined: {{ user.date_joined|date }}</p>
-      </div>
-    <div class="d-flex flex-column flex-lg-row">
-    </div>
-  </div>
-</section>
-
+<div class="">
+  <h1 class="h1">
+    <b>@{{ user.username }}</b> {% if user.is_staff %}<span class="badge badge-pill badge-primary">Mentor</span>{% endif %}
+  </h1>
+  <p>First Name: {{ user.first_name }}</p>
+  <p>Last Name: {{ user.last_name }}</p>
+  <p>Joined: {{ user.date_joined|date }}</p>
+</div>
 
 {% endblock %}

@@ -1,1 +1,11 @@
 {% extends "structure/base.html" %}
+
+{% block body %}
+<section class="bg-light vh-100">
+  <div class="container">
+
+  {% block dashboard_body %} {% endblock %}
+
+  </div>
+</section>
+{% endblock %}
